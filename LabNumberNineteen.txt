@@ -1,0 +1,65 @@
+SELECT * FROM northwind.customers;
+
+SELECT * FROM northwind.customers
+WHERE Country = 'France';
+
+SELECT * FROM northwind.customers
+WHERE CustomerID LIKE 'BL%';
+
+SELECT * FROM northwind.orders
+LIMIT 100;
+
+SELECT * FROM northwind.customers
+WHERE PostalCode = '1010' OR PostalCode = '3012' OR PostalCode = '12209' OR PostalCode = '05023';
+
+SELECT * FROM northwind.orders
+WHERE ShipRegion IS NOT NULL;
+
+SELECT * FROM northwind.customers
+ORDER BY Country;
+
+SELECT * FROM northwind.customers
+ORDER BY City;
+
+INSERT INTO northwind.customers VALUES (
+'ABABA',
+'Hopcat & Co.',
+NULL,
+NULL,
+NULL,
+NULL,
+NULL,
+NULL,
+NULL,
+NULL,
+NULL,
+NULL,
+NULL
+);
+
+UPDATE northwind.orders
+SET ShipRegion = 'Eurozone'
+WHERE ShipCountry = 'France';
+
+DELETE FROM northwind.`order details`
+WHERE Quantity = 1;
+
+SELECT AVG(Quantity)
+FROM northwind.`order details`;
+SELECT MAX(Quantity)
+FROM northwind.`order details`;
+SELECT MIN(Quantity)
+FROM northwind.`order details`;
+
+SELECT AVG(Quantity), MAX(Quantity), MIN(Quantity)
+FROM northwind.`order details`
+GROUP BY orderID;
+
+SELECT CustomerID
+FROM northwind.orders
+WHERE OrderID = '10290';
+
+SELECT Orders.OrderID, Customers.CompanyName
+FROM northwind.orders
+INNER JOIN Customers ON Orders.CustomerID = Customers.CustomerID;
+
