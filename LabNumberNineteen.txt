@@ -1,29 +1,41 @@
+1. Select all the records from the "Customers" table.
 SELECT * FROM northwind.customers;
 
+2. Get distinct countries from the "Customers" table.
 #Select distinct countries from the Customers table.
 SELECT DISTINCT Country FROM northwind.customers;
 #Select records from a distinct country in the Customers table.
 SELECT * FROM northwind.customers
 WHERE Country = 'France';
 
+3. Get all the records from the table Customers where the Customer's ID starts with "BL".
 SELECT * FROM northwind.customers
 WHERE CustomerID LIKE 'BL%';
 
+4. Get the first 100 records of the orders table.
 SELECT * FROM northwind.orders
 LIMIT 100;
 
+5. Get all customers that live in the postal codes 1010, 3012, 12209, and 05023.
 SELECT * FROM northwind.customers
 WHERE PostalCode = '1010' OR PostalCode = '3012' OR PostalCode = '12209' OR PostalCode = '05023';
 
+6. Get all orders where the ShipRegion is not equal to NULL.
 SELECT * FROM northwind.orders
 WHERE ShipRegion IS NOT NULL;
 
+7. Get all customers ordered by the country, then by the city.
+#Get all customers ordered by the country.
 SELECT * FROM northwind.customers
 ORDER BY Country;
-
+#Get all customers ordered by the city.
 SELECT * FROM northwind.customers
 ORDER BY City;
+#Get all customers--ordered first by the country, then by the city.
+SELECT * FROM northwind.customers
+ORDER BY COUNTRY,CITY;
 
+8. Add a new customer to the customers table. You can use whatever values.
 INSERT INTO northwind.customers VALUES (
 'ABABA',
 'Hopcat & Co.',
@@ -40,44 +52,59 @@ NULL,
 NULL
 );
 
+9. Update all ShipRegion to the value 'EuroZone' in the Orders table, where the ShipCountry is equal to France.
 UPDATE northwind.orders
 SET ShipRegion = 'Eurozone'
 WHERE ShipCountry = 'France';
 
+10. Delete all orders from `order details` that have quantity of 1.
 DELETE FROM northwind.`order details`
 WHERE Quantity = 1;
 
-SELECT AVG(Quantity)
+11. Calculate the average, max, and min of the quantity at the `order details` table.
+SELECT AVG(Quantity) As Average
 FROM northwind.`order details`;
-SELECT MAX(Quantity)
+SELECT MAX(Quantity) As Maximum
 FROM northwind.`order details`;
-SELECT MIN(Quantity)
+SELECT MIN(Quantity) As Minimum
 FROM northwind.`order details`;
 
-SELECT AVG(Quantity), MAX(Quantity), MIN(Quantity)
+12. Calculate the average, max, and min of the quantity at the `order details` table, grouped by the orderid.
+SELECT orderID, AVG(Quantity) As Average, MAX(Quantity) As Minimum, MIN(Quantity) As Maximum
 FROM northwind.`order details`
 GROUP BY orderID;
 
+13. Find the CustomerID that placed order 10290 (orders table).
+#Find the CustomerID that placed order 10290 (orders table).
 SELECT CustomerID
 FROM northwind.orders
 WHERE OrderID = '10290';
+#Return the row for the customer whose ID matches that of order 10290.
+SELECT * FROM northwind.customers
+INNER JOIN northwind.orders ON
+orders.customerID = customers.customerID
+WHERE orders.orderID = 10290;
 
+14. Do an inner join, left join, right join on orders and customers tables.
+#inner join
 SELECT Orders.OrderID, Customers.CompanyName
 FROM northwind.orders
 INNER JOIN Customers ON Orders.CustomerID = Customers.CustomerID;
-
+#left join
 SELECT Customers.CompanyName, Orders.OrderID
 FROM northwind.customers
 LEFT JOIN Orders ON Customers.CustomerID = Orders.CustomerID
 ORDER BY Customers.CompanyName;
-
+#right join
 SELECT Orders.OrderID, Customers.CompanyName
 FROM northwind.orders
-RIGHT JOIN Customers ON Orders.CustomerID = Customers.CustomerID;
+RIGHT JOIN Customers ON Orders.CustomerID = Customers.CustomerID
 ORDER BY Orders.OrderID;
 
+15. Get employees' firstname for all employees who report to no one.
 SELECT FirstName FROM northwind.employees
 WHERE ReportsTo IS NULL;
 
+16. Get employees' firstname for all employees who report to Andrew.
 SELECT FirstName FROM northwind.employees
 WHERE ReportsTo = '2';
